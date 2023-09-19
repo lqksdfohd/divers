@@ -1,0 +1,27 @@
+
+.solid-border{
+    border: solid 2px black;
+}
+
+.flex-row-v-center{
+    display: flex;
+    align-items: center;
+}
+
+
+ul {
+    list-style: none;
+}
+
+ul li {
+    box-sizing: border-box;
+    height: 4rem;
+    padding: 0 1rem 0 1rem;
+    margin-right: 1rem;
+    font-weight: bold;
+}
+
+a, a:visited{
+    color: black;
+    text-decoration: none;
+}
