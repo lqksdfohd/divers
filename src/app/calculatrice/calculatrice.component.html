@@ -1,32 +1,32 @@
 <div class="container-calculatrice">
     <div class="affichage">
         <div class="affichage-calcul">
-            <textarea name="calcul" id="calcul"></textarea>
+            <textarea name="calcul" id="calcul">{{affichageCalcul}}</textarea>
         </div>
         <div class="affichage-resultat">
-            <textarea name="resultat" id="resultat"></textarea>
+            <textarea name="resultat" id="resultat">{{resultat}}</textarea>
         </div>
     </div>
     <div class="input">
         <div class="liste-chiffres">
-            <div class="chiffre">7</div>
-            <div class="chiffre">8</div>
-            <div class="chiffre">9</div>
-            <div class="chiffre">4</div>
-            <div class="chiffre">5</div>
-            <div class="chiffre">6</div>
-            <div class="chiffre">1</div>
-            <div class="chiffre">2</div>
-            <div class="chiffre">3</div>
-            <div class="chiffre two-rows">0</div>
-            <div class="chiffre">.</div>
+            <div class="chiffre" (click)="push('7')">7</div>
+            <div class="chiffre" (click)="push('8')">8</div>
+            <div class="chiffre" (click)="push('9')">9</div>
+            <div class="chiffre" (click)="push('4')">4</div>
+            <div class="chiffre" (click)="push('5')">5</div>
+            <div class="chiffre" (click)="push('6')">6</div>
+            <div class="chiffre" (click)="push('1')">1</div>
+            <div class="chiffre" (click)="push('2')">2</div>
+            <div class="chiffre" (click)="push('3')">3</div>
+            <div class="chiffre two-rows" (click)="push('0')">0</div>
+            <div class="chiffre" (click)="push('.')">.</div>
         </div>
         <div class="liste-operations">
-            <div class="operation">/</div>
-            <div class="operation">x</div>
-            <div class="operation">+</div>
-            <div class="operation">-</div>
-            <div class="operation">=</div>
+            <div class="operation" (click)="push('/')">/</div>
+            <div class="operation" (click)="push('*')">*</div>
+            <div class="operation" (click)="push('+')">+</div>
+            <div class="operation" (click)="push('-')">-</div>
+            <div class="operation" (click)="calculer()">=</div>
         </div>
     </div>
 </div>

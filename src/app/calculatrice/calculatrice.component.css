@@ -17,8 +17,7 @@ div.affichage-calcul, div.affichage-resultat{
 div.affichage-calcul textarea, div.affichage-resultat textarea{
     width: 100%;
     resize: none;
-    display: flex;
-    align-items: center;
+    text-align: end;
 }
 
 
