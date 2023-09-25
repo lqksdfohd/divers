@@ -52,40 +52,61 @@ export class CalculatriceComponent {
   calculPrioritaire(): string[] {
     const work: string[] = [];
     const temp: string[] = this.calcul.slice();
-    let opPrim = undefined;
     if (this.checkCalcul()) {
       for (let i = 1; i < temp.length; i += 2) {
-        if (/[*/]/i.test(temp[i]) && !opPrim) {
-          let left = Number.parseFloat(temp[i - 1]);
-          let right = Number.parseFloat(temp[i + 1]);
-          let value = 0;
-          if (temp[i] == '*') {
-            value = left * right;
-          }else{
-            value = left / right;
+        switch (temp[i]) {
+          case "*": {
+            work.push(this.calculPrioritaireMultiplication(work,temp,i).toString());
+            break;
+          };
+          case "+": {
+            this.pushCalculNonPrioritaire(work,temp,i);
+            break;
+          };
+          case "-": {
+            this.pushCalculNonPrioritaire(work,temp,i);
+            break;
+          };
+          case "/": {
+            work.push(this.calculPrioritaireDivision(work,temp,i).toString());
+            break;
           }
-          work.push(value.toString());
-          opPrim = true;
-        }else if (/[*/]/i.test(temp[i]) && opPrim) {
-          let left = Number.parseFloat(work.pop() as string);
-          let right = Number(temp[i+1]);
-          let value = 0;
-          if(temp[i] === "*"){
-            value = left * right;
-          }else{
-            value = left / right;
-          }
-          work.push(value.toString());
-          opPrim = true;
-        }else {
-          work.push(temp[i-1]);
-          work.push(temp[i]);
-          //work.push(temp[i+1]);
         }
       }
     }
     return work;
   }
+
+  calculPrioritaireMultiplication(work: string[], temp: string[], i: number): number {
+    let fTerme = work.pop();
+    let value = 0;
+    if (fTerme) {
+      value = Number.parseFloat(fTerme) * Number.parseFloat(temp[i + 1]);
+    } else {
+      value = Number.parseFloat(temp[i - 1]) * Number.parseFloat(temp[i + 1]);
+    }
+    return value;
+  }
+
+  calculPrioritaireDivision(work: string[], temp: string[], i: number): number {
+    let fTerme = work.pop();
+    let value = 0;
+    if (fTerme) {
+      value = Number.parseFloat(fTerme) / Number.parseFloat(temp[i + 1]);
+    } else {
+      value = Number.parseFloat(temp[i - 1]) / Number.parseFloat(temp[i + 1]);
+    }
+    return value;
+  }
+
+  pushCalculNonPrioritaire(work:string[],temp:string[],i:number){
+    if (i === 1) {
+      work.push(temp[i - 1]);
+    }
+    work.push(temp[i]);
+    work.push(temp[i + 1]);
+  }
+
 
   formatterCalcul() {
     this.affichageCalcul = this.calcul.join(" ");
