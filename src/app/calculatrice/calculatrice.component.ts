@@ -44,47 +44,61 @@ export class CalculatriceComponent {
   }
 
   calculer(): void {
-    let calculTemp:string[] = this.calculPrioritaire();
+    let calculTemp: string[] = this.calculPrioritaire();
     this.resultat = calculTemp.join(" ");
     //this.calculSecondaire(calculTemp);
   }
 
-  calculPrioritaire():string[] {
-    const work: string[] = this.calcul.slice();
+  calculPrioritaire(): string[] {
+    const work: string[] = [];
+    const temp: string[] = this.calcul.slice();
+    let opPrim = undefined;
     if (this.checkCalcul()) {
-      while (work.length > 1) {
-        let n1 = Number.parseInt(work.pop() as string);
-        let op = work.pop() as string;
-        let n2 = Number.parseInt(work.pop() as string);
-        if (/[*\/]/.test(op)) {
-          if (op === '*') {
-            work.push("" + n1 * n2);
-          } else {
-            work.push("" + n2 / n1);
+      for (let i = 1; i < temp.length; i += 2) {
+        if (/[*/]/i.test(temp[i]) && !opPrim) {
+          let left = Number.parseFloat(temp[i - 1]);
+          let right = Number.parseFloat(temp[i + 1]);
+          let value = 0;
+          if (temp[i] == '*') {
+            value = left * right;
+          }else{
+            value = left / right;
           }
-        } else {
-          console.log("erreur")
-          work.push(n1.toString());
-          work.push(op);
-          work.push(n2.toString());
+          work.push(value.toString());
+          opPrim = true;
+        }else if (/[*/]/i.test(temp[i]) && opPrim) {
+          let left = Number.parseFloat(work.pop() as string);
+          let right = Number(temp[i+1]);
+          let value = 0;
+          if(temp[i] === "*"){
+            value = left * right;
+          }else{
+            value = left / right;
+          }
+          work.push(value.toString());
+          opPrim = true;
+        }else {
+          work.push(temp[i-1]);
+          work.push(temp[i]);
+          //work.push(temp[i+1]);
         }
       }
     }
-    return work.reverse();
+    return work;
   }
 
-  formatterCalcul(){
+  formatterCalcul() {
     this.affichageCalcul = this.calcul.join(" ");
   }
-  formatterResultat(){
+  formatterResultat() {
 
   }
 
-  checkCalcul() : boolean{
+  checkCalcul(): boolean {
     const n = Math.floor(this.calcul.length / 2);
-    if(this.calcul.length == n*2+1){
+    if (this.calcul.length == n * 2 + 1) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
