@@ -22,7 +22,6 @@ export class CalculatriceComponent implements OnInit {
     const oberver: Observer<Event> = {
       next: event => {
         const kbe = event as KeyboardEvent;
-        console.log(kbe);
         if (/[0-9*+/-]/.test(kbe.key)) {
           this.push(kbe.key);
         } else if (/Enter/.test(kbe.key)) {
@@ -66,8 +65,7 @@ export class CalculatriceComponent implements OnInit {
 
   calculer(): void {
     let calculTemp: string[] = this.calculPrioritaire();
-    this.resultat = calculTemp.join(" ");
-    //this.calculSecondaire(calculTemp);
+    this.resultat = this.calculNonPrioritaire(calculTemp).toString();
   }
 
   /**
@@ -95,6 +93,29 @@ export class CalculatriceComponent implements OnInit {
       }
     }
     return work;
+  }
+
+  /**
+   * éffectue les calculs non prioritaires, addition et soustraction.
+   * @returns le resultat du calcul.
+   */
+  calculNonPrioritaire(calculInput:string[]):number{
+    let right = Number.parseFloat(calculInput.pop() as string);
+    while(calculInput.length > 0){
+      let op = calculInput.pop();
+      let left = Number.parseFloat(calculInput.pop() as string);
+      switch(op){
+        case "+":
+          right = left + right;
+          break;
+        case "-":
+          right = left - right;
+          break;
+        default:
+          console.error("erreur ds le calcul");          
+      }
+    };
+    return right;
   }
 
   calculPrioritaireMultiplication(work: string[], temp: string[], i: number): number {
