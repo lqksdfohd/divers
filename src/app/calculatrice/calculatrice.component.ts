@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { fromEvent, map } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observer, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-calculatrice',
   templateUrl: './calculatrice.component.html',
   styleUrls: ['./calculatrice.component.css']
 })
-export class CalculatriceComponent {
+export class CalculatriceComponent implements OnInit {
   calcul: string[];
   resultat: string;
   affichageCalcul: string;
@@ -16,6 +16,27 @@ export class CalculatriceComponent {
     this.resultat = "";
     this.affichageCalcul = "";
   }
+
+  ngOnInit(): void {
+
+    const oberver: Observer<Event> = {
+      next: event => {
+        const kbe = event as KeyboardEvent;
+        console.log(kbe);
+        if (/[0-9*+/-]/.test(kbe.key)) {
+          this.push(kbe.key);
+        } else if (/Enter/.test(kbe.key)) {
+          this.calculer();
+        }
+      },
+      error: error => {console.log(error)},
+      complete: () => {}
+    }
+
+    const observable = fromEvent(document, 'keyup');
+    observable.subscribe(oberver);
+  }
+
 
   push(input: string): void {
     const regexNombre = /[0-9]+/;
@@ -61,14 +82,14 @@ export class CalculatriceComponent {
       for (let i = 1; i < temp.length; i += 2) {
         switch (temp[i]) {
           case "*": {
-            work.push(this.calculPrioritaireMultiplication(work,temp,i).toString());
+            work.push(this.calculPrioritaireMultiplication(work, temp, i).toString());
             break;
           };
-          case "/": 
-            work.push(this.calculPrioritaireDivision(work,temp,i).toString());
+          case "/":
+            work.push(this.calculPrioritaireDivision(work, temp, i).toString());
             break;
-          default: 
-            this.pushCalculNonPrioritaire(work,temp,i);
+          default:
+            this.pushCalculNonPrioritaire(work, temp, i);
             break;
         }
       }
@@ -98,7 +119,7 @@ export class CalculatriceComponent {
     return value;
   }
 
-  pushCalculNonPrioritaire(work:string[],temp:string[],i:number){
+  pushCalculNonPrioritaire(work: string[], temp: string[], i: number) {
     //si en début de la liste de calcul et opération non prioritaire, 
     //alors on ajoute le premier terme de l'opération dans le resultat.
     if (i === 1) {
@@ -133,7 +154,7 @@ export class CalculatriceComponent {
   /**
    * efface le calcul en cours.
    */
-  clearCalcul(){
+  clearCalcul() {
     this.calcul = [];
     this.formatterCalcul();
   }
