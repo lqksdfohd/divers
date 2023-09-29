@@ -25,3 +25,16 @@ a, a:visited{
     color: black;
     text-decoration: none;
 }
+
+div.affiche-components{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows:  5rem 1fr 1fr;
+}
+
+div.component{
+    grid-row: 2/3;
+    grid-column: 2/3;
+    display: flex;
+    justify-content: center;
+}
