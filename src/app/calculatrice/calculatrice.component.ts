@@ -49,28 +49,27 @@ export class CalculatriceComponent {
     //this.calculSecondaire(calculTemp);
   }
 
+  /**
+   * éffectue les calculs prioritaire et retourne une liste de calculs non prioritaires.
+   * les calculs prioritaires sont la multiplication et la division.
+   * @returns une liste de calculs non prioritaires.
+   */
   calculPrioritaire(): string[] {
     const work: string[] = [];
     const temp: string[] = this.calcul.slice();
-    if (this.checkCalcul()) {
+    if (this.checkCalculCorrecte()) {
       for (let i = 1; i < temp.length; i += 2) {
         switch (temp[i]) {
           case "*": {
             work.push(this.calculPrioritaireMultiplication(work,temp,i).toString());
             break;
           };
-          case "+": {
-            this.pushCalculNonPrioritaire(work,temp,i);
-            break;
-          };
-          case "-": {
-            this.pushCalculNonPrioritaire(work,temp,i);
-            break;
-          };
-          case "/": {
+          case "/": 
             work.push(this.calculPrioritaireDivision(work,temp,i).toString());
             break;
-          }
+          default: 
+            this.pushCalculNonPrioritaire(work,temp,i);
+            break;
         }
       }
     }
@@ -100,6 +99,8 @@ export class CalculatriceComponent {
   }
 
   pushCalculNonPrioritaire(work:string[],temp:string[],i:number){
+    //si en début de la liste de calcul et opération non prioritaire, 
+    //alors on ajoute le premier terme de l'opération dans le resultat.
     if (i === 1) {
       work.push(temp[i - 1]);
     }
@@ -108,19 +109,32 @@ export class CalculatriceComponent {
   }
 
 
+  /**
+   * prettify le calcul pour l'affichage.
+   */
   formatterCalcul() {
     this.affichageCalcul = this.calcul.join(" ");
-  }
-  formatterResultat() {
-
+    this.resultat = "";
   }
 
-  checkCalcul(): boolean {
+  /**
+   * 
+   * @returns true si le calcul est sémantiquement correcte, false sinon.
+   */
+  checkCalculCorrecte(): boolean {
     const n = Math.floor(this.calcul.length / 2);
     if (this.calcul.length == n * 2 + 1) {
       return true;
     } else {
       return false;
     }
+  }
+
+  /**
+   * efface le calcul en cours.
+   */
+  clearCalcul(){
+    this.calcul = [];
+    this.formatterCalcul();
   }
 }

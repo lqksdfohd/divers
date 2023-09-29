@@ -25,6 +25,11 @@ div.input{
     width: inherit;
     height: 10rem;
     display: flex;
+    flex-direction: column;
+}
+div.input-operations{
+    width: inherit;
+    display: flex;
 }
 
 div.liste-chiffres{
@@ -33,7 +38,7 @@ div.liste-chiffres{
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-div.chiffre{
+div.chiffre,div.clear{
     background-color: gray;
     border: solid 1px black;
     margin: 0.5rem ;
