@@ -9,6 +9,14 @@ export class ServiceCalcul {
         return this.formule.length === 0;
     }
 
+    getFormule():string[]{
+        return this.formule;
+    }
+
+    clearCalcul():void{
+        this.formule = [];
+    }
+
     push(nbr: string): void {
         const regxChiffres = /[0-9]+/;
         const regxOperations = /[+-/*]+/;
