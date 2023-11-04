@@ -8,12 +8,10 @@ import { ServiceCalcul } from '../services/ServiceCalcul';
   styleUrls: ['./calculatrice.component.css']
 })
 export class CalculatriceComponent implements OnInit {
-  calcul: string[];
   resultat: string;
   affichageCalcul: string; 
 
   constructor(private serviceCalcul:ServiceCalcul) {
-    this.calcul = [];
     this.resultat = "";
     this.affichageCalcul = "";
   }
