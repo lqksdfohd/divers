@@ -59,8 +59,9 @@ export class ServiceCalcul {
             return output;
         } else {
             let temp: string[] = this.faireCalculsPrioritaires();
-            return Number.parseFloat(this.faireCalculNonPrioritaire(temp)[0]);
+            return Number.parseFloat(this.faireCalculNonPrioritaire(temp));
         }
+       return 0;
     }
 
     faireCalculsPrioritaires(): string[] {
@@ -74,17 +75,19 @@ export class ServiceCalcul {
             if (op != undefined) {
                 switch (op) {
                     case "*":
+                        //cas multiplication
                         let termeDroiteMultiplication = Number.parseFloat(temp.shift()!);
                         const resultatMultiplication = Number.parseFloat(gauche) * termeDroiteMultiplication;
                         temp.unshift(resultatMultiplication.toString());
                         break;
                     case "/":
+                        //cas division
                         let termeDroiteDivision = Number.parseFloat(temp.shift()!);
                         const resultatDivision = Number.parseFloat(gauche) / termeDroiteDivision;
                         temp.unshift(resultatDivision.toString());
                         break;
-                    // si opération non prioritaire on l'ajoute 
-                    //à l'output sans modifier l'opération.
+                    // si opération est non prioritaire on l'ajoute 
+                    // à l'output sans faire de calcul dessus.
                     default:
                         output.push(gauche);
                         output.push(op);
@@ -97,8 +100,8 @@ export class ServiceCalcul {
         return output;
     }
 
-    faireCalculNonPrioritaire(input: string[]): string[] {
-        while (input.length > 0) {
+    faireCalculNonPrioritaire(input: string[]): string {
+        while (input.length > 1) {
             let droite: string = input.pop()!;
             let op: string = input.pop()!;
             if (op != undefined) {
@@ -108,7 +111,7 @@ export class ServiceCalcul {
                         let NdroiteAddition = Number.parseFloat(droite);
                         input.push((NgaucheAddition + NdroiteAddition).toString());
                         break;
-                    case "+":
+                    case "-":
                         let NgaucheSoustraction = Number.parseFloat(input.pop()!);
                         let NdroiteSoustraction = Number.parseFloat(droite);
                         input.push((NgaucheSoustraction - NdroiteSoustraction).toString());
@@ -120,7 +123,7 @@ export class ServiceCalcul {
                 input.push(droite);
             }
         }
-        return input;
+        return input[0];
     }
 
 }

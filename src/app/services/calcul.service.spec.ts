@@ -62,6 +62,16 @@ describe("test calcul: ", () =>{
         const resultat = serviceCalcul.calculer();
         expect(resultat).toBe(9)
     })
+    it("cas avec opération complète", () => {
+        serviceCalcul.push("9");
+        serviceCalcul.push("0");
+        serviceCalcul.push("*");
+        serviceCalcul.push("2");
+        serviceCalcul.push("+");
+        serviceCalcul.push("2");
+        const resultat = serviceCalcul.calculer();
+        expect(resultat).toBe(182);
+    })
 })
 
 describe("test calcul prioritaire: ",() => {
@@ -116,7 +126,6 @@ describe("test calcul prioritaire: ",() => {
         serviceCalcul.push("+");
         serviceCalcul.push("9");
         const resultat = serviceCalcul.faireCalculsPrioritaires();
-        console.log("__"+resultat);
         expect(resultat).toEqual(["18", "+", "9"]);
     })
     it("cas plusieurs opérations prioritaires division", () => {
@@ -126,7 +135,6 @@ describe("test calcul prioritaire: ",() => {
         serviceCalcul.push("/");
         serviceCalcul.push("2");
         const resultat = serviceCalcul.faireCalculsPrioritaires();
-        console.log(resultat);
         expect(resultat).toEqual(["1"]);
     })
 })
@@ -134,11 +142,19 @@ describe("test calcul prioritaire: ",() => {
 describe("test calcul non prioritaire", () => {
     let serviceCalcul:ServiceCalcul;
     beforeEach(() => { serviceCalcul = new ServiceCalcul();})
-    it("cas une opération", () => {
+    it("cas une addition", () => {
         serviceCalcul.push("9");
         serviceCalcul.push("+");
         serviceCalcul.push("9");
         const resultat = serviceCalcul.faireCalculNonPrioritaire(serviceCalcul.formule);
-        expect(resultat).toEqual(["18"]);
+        expect(resultat).toEqual("18");
+    });
+
+    it("cas soustraction", () => {
+        serviceCalcul.push("9");
+        serviceCalcul.push("-");
+        serviceCalcul.push("8");
+        const resultat = serviceCalcul.faireCalculNonPrioritaire(serviceCalcul.formule);
+        expect(resultat).toEqual("1")
     })
 })
