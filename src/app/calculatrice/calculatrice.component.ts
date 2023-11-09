@@ -25,6 +25,8 @@ export class CalculatriceComponent implements OnInit {
           this.push(kbe.key);
         } else if (/Enter/.test(kbe.key)) {
           this.calculer();
+        } else if(/Backspace/.test(kbe.key)){
+          this.supprimerUnTerme();
         }
       },
       error: error => {console.log(error)},
@@ -37,8 +39,8 @@ export class CalculatriceComponent implements OnInit {
 
 
   /**
-   * ajoute une opération ou un opérand au calcul
-   * @param input une opération ou un opérand
+   * ajoute une opération ou un chiffre au calcul
+   * @param input une opération ou un chiffre
    */
   push(input: string): void {
     this.serviceCalcul.push(input);
@@ -62,5 +64,11 @@ export class CalculatriceComponent implements OnInit {
   clearCalcul() {
     this.serviceCalcul.clearCalcul();
     this.affichageCalcul = "";
+  }
+
+  /** supprimer un chiffre ou une opération de la formule */
+  supprimerUnTerme(){
+    this.serviceCalcul.supprimerTerme();
+    this.formatterCalcul();
   }
 }

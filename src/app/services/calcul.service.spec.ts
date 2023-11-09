@@ -158,3 +158,38 @@ describe("test calcul non prioritaire", () => {
         expect(resultat).toEqual("1")
     })
 })
+
+describe("supprimer un terme de la formule: ", () => {
+    let serviceCalcul:ServiceCalcul;
+    beforeEach( () => serviceCalcul = new ServiceCalcul())
+    it("cas formule vide", () => {
+        serviceCalcul.supprimerTerme();
+        expect(serviceCalcul.getFormule()).toEqual([]);
+    })
+
+    it("cas un nombre constitué d'un chiffre" ,() => {
+        serviceCalcul.push("9");
+        serviceCalcul.supprimerTerme();
+        expect(serviceCalcul.getFormule()).toEqual([]);
+    })
+
+    it("cas formule se terminant par opération", () => {
+        serviceCalcul.push("9");
+        serviceCalcul.push("*");
+        serviceCalcul.supprimerTerme();
+        expect(serviceCalcul.getFormule()).toEqual(["9"]);
+    })
+
+    it("cas plusieurs appels", () => {
+        serviceCalcul.push("9");
+        serviceCalcul.push("9");
+        serviceCalcul.push("+");
+        serviceCalcul.push("9");
+        serviceCalcul.supprimerTerme();
+        serviceCalcul.supprimerTerme();
+        serviceCalcul.supprimerTerme();
+
+        expect(serviceCalcul.getFormule()).toEqual(["9"]);
+
+    })
+})

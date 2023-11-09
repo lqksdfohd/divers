@@ -17,6 +17,19 @@ export class ServiceCalcul {
         this.formule = [];
     }
 
+    supprimerTerme():void{
+        let terme:string = this.formule.pop() as string;
+        //si le dernier terme est un nombre ou chiffre
+        if(/[0-9]+/.test(terme)){
+            let temp = terme.substring(0,terme.length-1);
+            //s'il reste des chiffres dans le nombre
+            if(temp != "" && temp != undefined){
+                this.formule.push(temp);
+            }
+        }//sinon on supprime les nombres composés d'un chiffre ou les opérations.
+        else {}
+    }
+
     push(nbr: string): void {
         const regxChiffres = /[0-9]+/;
         const regxOperations = /[+-/*]+/;
