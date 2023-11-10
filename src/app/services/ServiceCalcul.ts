@@ -31,9 +31,11 @@ export class ServiceCalcul {
     }
 
     push(nbr: string): void {
-        const regxChiffres = /[0-9]+/;
-        const regxOperations = /[+-/*]+/;
+        const regxChiffres = /[0-9.]+/;
+        const regxOperations = /[*/+-]+/;
         let precedent = this.formule.pop() as string;
+        console.log("precedent: " + precedent)
+        console.log("nbr: " + nbr);
         //si formule est vide
         if (!precedent) {
             //si n est un chiffre
@@ -50,9 +52,10 @@ export class ServiceCalcul {
         }//si le dernier élément est une operation et l'input n aussi
         else if (regxOperations.test(precedent) && regxOperations.test(nbr)) {
             //on remplace l'encienne operation par l'input
+            console.log(this.formule);
             this.formule.push(nbr);
         } else {
-            //si le dernier élément est un nombre et l'input n une opération alors ou 
+            //si le dernier élément est un nombre et l'input n une opération ou 
             //l'inverse alors on append le dernier élément et ensuite l'input n.
             this.formule.push(precedent);
             this.formule.push(nbr);
@@ -74,7 +77,6 @@ export class ServiceCalcul {
             let temp: string[] = this.faireCalculsPrioritaires();
             return Number.parseFloat(this.faireCalculNonPrioritaire(temp));
         }
-       return 0;
     }
 
     faireCalculsPrioritaires(): string[] {

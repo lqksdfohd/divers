@@ -21,10 +21,11 @@ export class CalculatriceComponent implements OnInit {
     const oberver: Observer<Event> = {
       next: event => {
         const kbe = event as KeyboardEvent;
-        if (/[0-9*+/-]/.test(kbe.key)) {
+        if (/[0-9.*+/-]/.test(kbe.key)) {
           this.push(kbe.key);
         } else if (/Enter/.test(kbe.key)) {
           this.calculer();
+          console.log("calcul fait: ");
         } else if(/Backspace/.test(kbe.key)){
           this.supprimerUnTerme();
         }

@@ -41,7 +41,22 @@ describe("test push:", () =>{
         serviceCalcul.push("-");
         serviceCalcul.push("8");
         expect(serviceCalcul.getNbrDeTermesDsFormule()).toBe(3);
-    })//cas input garbage
+    })
+    it("l'operateur decimal est pris en compte: ", () => {
+        serviceCalcul.push("9");
+        serviceCalcul.push(".");
+        serviceCalcul.push("5");
+        let nbrDecimal = serviceCalcul.getFormule().pop();
+        expect(nbrDecimal).toBe("9.5");
+    })
+    it("cas un nombre decimal dans un calcul: ", () =>{
+        serviceCalcul.push("9");
+        serviceCalcul.push(".");
+        serviceCalcul.push("5");
+        serviceCalcul.push("+");
+        serviceCalcul.push("5");
+        expect(serviceCalcul.getFormule()).toEqual(["9.5","+","5"]);
+    })
 })
 
 describe("test calcul: ", () =>{
@@ -72,6 +87,7 @@ describe("test calcul: ", () =>{
         const resultat = serviceCalcul.calculer();
         expect(resultat).toBe(182);
     })
+
 })
 
 describe("test calcul prioritaire: ",() => {
