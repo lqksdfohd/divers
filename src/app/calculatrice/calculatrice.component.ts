@@ -25,7 +25,6 @@ export class CalculatriceComponent implements OnInit {
           this.push(kbe.key);
         } else if (/Enter/.test(kbe.key)) {
           this.calculer();
-          console.log("calcul fait: ");
         } else if(/Backspace/.test(kbe.key)){
           this.supprimerUnTerme();
         }
@@ -49,7 +48,8 @@ export class CalculatriceComponent implements OnInit {
   }
 
   calculer(): void {
-    this.resultat = this.serviceCalcul.calculer().toString();
+    this.serviceCalcul.calculer();
+    this.resultat = this.serviceCalcul.getResultatCalcul().toString();
   }
 
   /**

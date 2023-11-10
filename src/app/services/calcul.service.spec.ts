@@ -63,18 +63,21 @@ describe("test calcul: ", () =>{
     let serviceCalcul:ServiceCalcul;
     beforeEach(() => { serviceCalcul = new ServiceCalcul();})
     it("cas formule vide", () => {
-        const resultat = serviceCalcul.calculer();
+        serviceCalcul.calculer();
+        const resultat = serviceCalcul.getResultatCalcul()
         expect(resultat).toBe(0);
     })
     it("cas nbr sans opération", () => {
         serviceCalcul.push("9");
-        const resultat = serviceCalcul.calculer();
+        serviceCalcul.calculer();
+        const resultat = serviceCalcul.getResultatCalcul()
         expect(resultat).toBe(9);
     })
     it("cas avec opération mais calcul incomplet", () => {
         serviceCalcul.push("9");
         serviceCalcul.push("+");
-        const resultat = serviceCalcul.calculer();
+        serviceCalcul.calculer();
+        const resultat = serviceCalcul.getResultatCalcul()
         expect(resultat).toBe(9)
     })
     it("cas avec opération complète", () => {
@@ -84,7 +87,8 @@ describe("test calcul: ", () =>{
         serviceCalcul.push("2");
         serviceCalcul.push("+");
         serviceCalcul.push("2");
-        const resultat = serviceCalcul.calculer();
+        serviceCalcul.calculer();
+        const resultat = serviceCalcul.getResultatCalcul()
         expect(resultat).toBe(182);
     })
 

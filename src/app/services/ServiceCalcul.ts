@@ -4,6 +4,7 @@ import { Injectable, Output } from "@angular/core";
 @Injectable({providedIn: "root"})
 export class ServiceCalcul {
     formule: string[] = [];
+    resultat:number = 0;
 
     isFormuleVide() {
         return this.formule.length === 0;
@@ -11,6 +12,10 @@ export class ServiceCalcul {
 
     getFormule():string[]{
         return this.formule;
+    }
+
+    getResultatCalcul(){
+        return this.resultat;
     }
 
     clearCalcul():void{
@@ -34,8 +39,6 @@ export class ServiceCalcul {
         const regxChiffres = /[0-9.]+/;
         const regxOperations = /[*/+-]+/;
         let precedent = this.formule.pop() as string;
-        console.log("precedent: " + precedent)
-        console.log("nbr: " + nbr);
         //si formule est vide
         if (!precedent) {
             //si n est un chiffre
@@ -52,7 +55,6 @@ export class ServiceCalcul {
         }//si le dernier élément est une operation et l'input n aussi
         else if (regxOperations.test(precedent) && regxOperations.test(nbr)) {
             //on remplace l'encienne operation par l'input
-            console.log(this.formule);
             this.formule.push(nbr);
         } else {
             //si le dernier élément est un nombre et l'input n une opération ou 
@@ -66,16 +68,17 @@ export class ServiceCalcul {
         return this.formule.length;
     }
 
-    calculer(): number {
+    calculer(): void {
         if (this.isFormuleVide()) {
-            return 0;
+            this.resultat = 0;
         } else if (this.getNbrDeTermesDsFormule() < 3) {
-            const temp: string = this.formule.shift() as string;
+            const tabTravail = this.formule.slice();
+            const temp: string = tabTravail.shift() as string;
             const output: number = Number.parseFloat(temp);
-            return output;
+            this.resultat = output;
         } else {
             let temp: string[] = this.faireCalculsPrioritaires();
-            return Number.parseFloat(this.faireCalculNonPrioritaire(temp));
+            this.resultat = Number.parseFloat(this.faireCalculNonPrioritaire(temp));
         }
     }
 
