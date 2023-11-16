@@ -83,38 +83,29 @@ export class ServiceCalcul {
     }
 
     faireCalculsPrioritaires(): string[] {
-        let temp = this.formule.slice();
+        let temp = this.formule.slice().reverse();
         let output: string[] = [];
 
-        while (temp.length > 0) {
-            let gauche = temp.shift()!;
-            let op = temp.shift()!;
-            //tans qu'il y a des opérations
-            if (op != undefined) {
-                switch (op) {
-                    case "*":
-                        //cas multiplication
-                        let termeDroiteMultiplication = Number.parseFloat(temp.shift()!);
-                        const resultatMultiplication = Number.parseFloat(gauche) * termeDroiteMultiplication;
-                        temp.unshift(resultatMultiplication.toString());
-                        break;
-                    case "/":
-                        //cas division
-                        let termeDroiteDivision = Number.parseFloat(temp.shift()!);
-                        const resultatDivision = Number.parseFloat(gauche) / termeDroiteDivision;
-                        temp.unshift(resultatDivision.toString());
-                        break;
-                    // si opération est non prioritaire on l'ajoute 
-                    // à l'output sans faire de calcul dessus.
-                    default:
-                        output.push(gauche);
-                        output.push(op);
-
-                }
-            } else {
-                output.push(gauche);
+        while (temp.length > 1) {
+            let termeGauche = Number.parseFloat(temp.pop() as string);
+            let op = temp.pop() as string;
+            switch(op){
+                case "/":
+                    let divTermeDroite = Number.parseFloat(temp.pop() as string);
+                    let divRes = termeGauche / divTermeDroite;
+                    temp.push(divRes.toString());
+                    break;
+                case "*":
+                    let multiTermeDroite = Number.parseFloat(temp.pop() as string);
+                    let multiRes = termeGauche * multiTermeDroite;
+                    temp.push(multiRes.toString());
+                    break;
+                default:
+                    output.push(termeGauche.toString());
+                    output.push(op);
             }
         }
+        output.push(temp.pop() as string);
         return output;
     }
 
